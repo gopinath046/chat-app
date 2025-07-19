@@ -1,0 +1,10 @@
+# Node modules
+node_modules/
+.env
+
+# React build
+client/build/
+
+# OS junk
+.DS_Store
+Thumbs.db
