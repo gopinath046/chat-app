@@ -16,20 +16,28 @@ const server = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
 
+// ✅ Initialize socket
 initSocket(server);
 
+// ✅ Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch((err) => console.log(err));
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+// ✅ Update CORS to allow Netlify frontend
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://one-to-one-chatsystem.netlify.app'],
+  credentials: true,
+}));
+
 app.use(express.json());
 
-// ✅ Routes
+// ✅ API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/messages', messageRoutes); // 👈 FIXED this line
+app.use('/api/messages', messageRoutes);
 
+// ✅ Start server
 server.listen(PORT, () =>
   console.log(`✅ Server running on http://localhost:${PORT}`)
 );
